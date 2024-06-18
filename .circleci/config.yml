@@ -306,7 +306,7 @@ jobs:
           command: |
             apk add --update tar gzip ansible nodejs npm curl openssh-client
             pip install awscli
-          #   make sure no more dependencies needed on the image
+          #   make sure no more dependencies needed
       - run:
           name: Deploy backend
           command: |
