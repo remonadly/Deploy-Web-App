@@ -1,7 +1,7 @@
 version: 2.1
 
 commands:
-  destroy-environment: # To be called/executed upon migration or deployment failures only
+  destroy-environment: # To be called/executed upon migration/deployment failures only
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       when:
@@ -196,7 +196,7 @@ jobs:
             - project/backend/
       - destroy-environment:
           when: on_fail
-      # Here's where you will add some code to rollback on failure 
+       
 
   configure-infrastructure:
     docker:
@@ -218,7 +218,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           when: on_fail
-      # Here's where you will add some code to rollback on failure      
+           
 
   run-migrations:
     docker:
@@ -232,14 +232,15 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            pwd
-            ls -l
+#            pwd
+ #           ls -l
             cd backend
             npm install
             npm run build
             npm run migrations:revert
             npm run migrations > migration.log
             cat migration.log
+
          #   Run and sve the migration output
       - run:
           name: Send migration results to memstash as 0 or 1 flag
@@ -307,6 +308,7 @@ jobs:
             apk add --update tar gzip ansible nodejs npm curl openssh-client
             pip install awscli
           #   make sure no more dependencies needed
+
       - run:
           name: Deploy backend
           command: |
